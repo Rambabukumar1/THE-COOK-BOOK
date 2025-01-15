@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+CKL9EIR+ZOhtIloN19GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3196P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+    <title>Recipe App</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>RECIPE APP</h1>
+            <form>
+                <input type="text" placeholder="Search for recipes..." class="searchBox" id="searchBox">
+                <button type="submit" class="searchBtn">Search</button>
+                <button type="button" class="voiceBtn" id="voiceBtn">🎤</button>
+            </form>
+        
+            <script>
+                // Check if browser supports SpeechRecognition
+                window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+                if ('SpeechRecognition' in window) {
+                    const recognition = new SpeechRecognition();
+                    const searchBox = document.getElementById('searchBox');
+                    const voiceBtn = document.getElementById('voiceBtn');
+        
+                    recognition.interimResults = false; // Final results only
+                    recognition.lang = 'en-US';         // Set the language
+        
+                    recognition.onresult = (event) => {
+                        // Update the search box with the transcribed speech
+                        searchBox.value = event.results[0][0].transcript;
+                    };
+        
+                    recognition.onerror = (event) => {
+                        console.error("Speech recognition error detected: " + event.error);
+                    };
+        
+                    voiceBtn.addEventListener('click', () => {
+                        recognition.start(); // Start listening when the voice button is clicked
+                    });
+                } else {
+                    alert("Sorry, your browser doesn't support Speech Recognition.");
+                }
+            </script>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="recipe-container">
+                <h2>Search your favourite recipes</h2>
+            </div>
+
+            <div class="recipe-details">
+                <button type="button" class="recipe-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <div class="recipe-details-content"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
